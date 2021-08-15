@@ -4,6 +4,8 @@
 
 This is a helm chart that deploy a s3-proxy inside the s3-exposer namespace.
 
+[S3-proxy](https://github.com/pottava/aws-s3-proxy) is a project created by [Ryo Nakamaru](https://github.com/pottava) among other contributors under the [MIT License](https://github.com/pottava/aws-s3-proxy/blob/master/LICENSE)
+
 Will work with the provided service account maped to a iam role whithout any hardcoded credentials.
 
 The chart expect to have an ingress controller (nginx), cert-manager and external-dns already deployed on the cluster.
