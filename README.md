@@ -16,6 +16,18 @@ The chart expect to have an ingress controller (nginx), cert-manager and externa
 helm install s3-exposer . -f my-values.yaml
 ```
 
+## Check
+```
+$ kubectl get pods -n s3-exposer
+NAME                        READY   STATUS    RESTARTS   AGE
+s3-proxy-64dccbb848-xcbxb   1/1     Running   0          4m
+```
+```
+$ kubectl get ingress -n s3-exposer
+NAME                   CLASS    HOSTS                ADDRESS                                                                   PORTS     AGE
+proxy-assets-ingress   <none>   foo.tryland.com.es   ab59ff1c6cb064b29a2fa22a39fdd905-1383442750.eu-west-1.elb.amazonaws.com   80, 443   4m3s
+```
+
 ## How it works
 
 This chart will deploy an s3-proxy pod, a service, ingress, issuer and a secret (for basic auth).
@@ -84,4 +96,4 @@ secret.auth                                                      |Hashed credent
 1. There is no support for cluster autscaller yet.
 1. The number of replicas is manually defined.
 1. Only one bucket could be exposed. If you need to expose more buckets install the chart again with a different name and different values.
-1. You cannot decide the yet the service account name
+1. You cannot decide yet the service account name
