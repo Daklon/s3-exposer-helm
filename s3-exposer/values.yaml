@@ -1,0 +1,42 @@
+# Default values for s3-exposer.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+#
+#
+#
+#
+deployment:
+  access_log: true
+  aws_region: eu-west-1
+  aws_s3_bucket: your-bucket
+
+replicaCount: 1
+
+image:
+  repository: pottava/s3-proxy
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # nginx.ingress.kubernetes.io/auth-type: basic
+    # nginx.ingress.kubernetes.io/auth-secret: basic-auth-nginx
+    cert-manager.io/issuer: "letsencrypt"
+  hosts:
+    - host: foo.bar.com.es
+      paths:
+        - path: /
+  tls: 
+    - secretName: foo-tls
+      hosts:
+        - foo.bar.com.es
+
+issuer:
+  email: foo@bar.com 
+  server: https://acme-staging-v02.api.letsencrypt.org/directory
+  #server: https://acme-v02.api.letsencrypt.org/directory
+
+secret:
+  auth: Zm9vOiRhcHIxJFJVUm1QSC9XJGhWeDdodlA4cGMxWHBpajRENHR1Wi8K #foo:bar
+

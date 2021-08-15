@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s3-proxy
+  namespace: s3-exposer
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: s3-proxy
+  template:
+    metadata:
+      labels:
+        app: s3-proxy
+    spec:
+      serviceAccountName: s3-reader
+      restartPolicy: Always
+      containers:
+        - name: proxy
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            - name: ACCESS_LOG
+              value: "{{ .Values.deployment.access_log }}"
+            - name: AWS_REGION
+              value: {{ .Values.deployment.aws_region }}
+            - name: AWS_S3_BUCKET
+              value: {{ .Values.deployment.aws_s3_bucket }}
